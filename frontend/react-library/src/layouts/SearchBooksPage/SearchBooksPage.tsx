@@ -40,7 +40,7 @@ export const SearchBooksPage = () => {
 
       const responseJson = await response.json(); // convert response to a JSON
 
-      const responseData = responseJson._embedded.books; // grab data out of the JSON, comes from the books variable we created outside of the useEffect() function. creates it as an object
+      const responseData = responseJson._embedded.books; // grab data out of the JSON. If you go into Postman, you will see that "_embedded" is the outer(global) object containing your "books" object. So we use this ._embedded.books to access the books object from our JSON return
 
       setTotalAmountOfBooks(responseJson.page.totalElements);
       setTotalPages(responseJson.page.totalPages);
