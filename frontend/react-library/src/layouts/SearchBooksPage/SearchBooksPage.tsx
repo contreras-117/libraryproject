@@ -35,7 +35,7 @@ export const SearchBooksPage = () => {
       const response = await fetch(url); //get API
 
       if (!response.ok) {
-        throw new Error("Soemthing went wrong during the fetch of the API!");
+        throw new Error("Something went wrong during the fetch of the API!");
       }
 
       const responseJson = await response.json(); // convert response to a JSON
