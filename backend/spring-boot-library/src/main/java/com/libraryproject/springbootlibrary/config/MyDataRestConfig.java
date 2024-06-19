@@ -1,6 +1,7 @@
 package com.libraryproject.springbootlibrary.config;
 
 import com.libraryproject.springbootlibrary.entity.Book;
+import com.libraryproject.springbootlibrary.entity.Review;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
@@ -9,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @Configuration
 public class MyDataRestConfig implements RepositoryRestConfigurer {
-
     private String allowedOrigins = "http://localhost:3000";
 
     @Override
@@ -23,8 +23,10 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         };
 
         config.exposeIdsFor(Book.class);
+        config.exposeIdsFor(Review.class);
 
         disableHttpMethods(Book.class, config, unsupportedActions);
+        disableHttpMethods(Review.class, config, unsupportedActions);
 
         /* Configure CORS Mapping */
         cors.addMapping(config.getBasePath() + "/**")
@@ -32,10 +34,10 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 
     }
 
-    private void disableHttpMethods(Class<Book> bookClass, RepositoryRestConfiguration config, HttpMethod[] unsupportedActions) {
+    private void disableHttpMethods(Class theClass, RepositoryRestConfiguration config, HttpMethod[] unsupportedActions) {
 
         config.getExposureConfiguration()
-                .forDomainType(bookClass)
+                .forDomainType(theClass)
                 .withItemExposure((metdata, httpMethods) -> httpMethods.disable(unsupportedActions))
                 .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(unsupportedActions));
 
