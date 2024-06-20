@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/library-app.iml" filepath="$PROJECT_DIR$/.idea/library-app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/backend/spring-boot-library/spring-boot-library.iml" filepath="$PROJECT_DIR$/backend/spring-boot-library/spring-boot-library.iml" />
     </modules>
   </component>
 </project>
