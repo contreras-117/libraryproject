@@ -111,7 +111,6 @@ export const Carousel = () => {
           ></span>
           <span className="visually-hidden">Previous</span>
         </button>
-        17
         <button
           className="carousel-control-next"
           type="button"
