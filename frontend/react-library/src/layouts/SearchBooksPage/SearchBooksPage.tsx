@@ -136,6 +136,7 @@ export const SearchBooksPage = () => {
                   placeholder="Search"
                   aria-labelledby="Search"
                   onChange={(e) => setSearch(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === "Enter") searchHandleChange() }}
                 />
                 <button
                   className="btn btn-outline-success"
