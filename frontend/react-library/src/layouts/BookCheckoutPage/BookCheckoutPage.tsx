@@ -66,7 +66,7 @@ export const BookCheckoutPage = () => {
 
       const loadedReviews: ReviewModel[] = [];
 
-      let weightedStarReciews: number = 0;
+      let weightedStarReviews: number = 0;
 
       for (const key in responseData) {
         loadedReviews.push({
@@ -77,12 +77,12 @@ export const BookCheckoutPage = () => {
           book_id: responseData[key].bookId,
           reviewDescription: responseData[key].reviewDescription,
         });
-        weightedStarReciews += responseData[key].rating; // adding each rating from every review through each iteration
+        weightedStarReviews += responseData[key].rating; // adding each rating from every review through each iteration
       }
 
       // Logic to find total ratings and render them into our stars that is either a whole number or a .5 from 1 - 5 stars. Let's round up to the nearest .5 or .0
       if (loadedReviews) {
-        const round = (Math.round((weightedStarReciews / loadedReviews.length) * 2) / 2).toFixed(1); // gives us a rounded number to the nearest .5
+        const round = (Math.round((weightedStarReviews / loadedReviews.length) * 2) / 2).toFixed(1); // gives us a rounded number to the nearest .5
         setTotalStars(Number(round)); // here we're making sure its of type Number when passing in our 'round' variable
       }
 
