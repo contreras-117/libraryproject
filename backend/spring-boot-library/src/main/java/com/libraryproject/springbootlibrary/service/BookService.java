@@ -55,4 +55,8 @@ public class BookService {
         }
     }
 
+    public int currentLoansCount(String userEmail) {
+        return checkoutRepository.findBooksByUserEmail(userEmail).size();
+    }
+
 }
