@@ -7,7 +7,7 @@ import java.util.Map;
 public class ExtractJWT {
 
     public static String payloadExtraction(String token, String extraction) {
-        token.replace("Bearer ", "");
+        token = token.replace("Bearer ", "");
 
         String[] chunks = token.split("\\.");
 
