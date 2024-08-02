@@ -19,7 +19,7 @@ export const Carousel = () => {
       const response = await fetch(url); //get API
 
       if (!response.ok) {
-        throw new Error("Soemthing went wrong during the fetch of the API!");
+        throw new Error("Something went wrong during the fetch of the API!");
       }
 
       const responseJson = await response.json(); // convert response to a JSON
@@ -107,7 +107,7 @@ export const Carousel = () => {
         >
           <span
             className="carousel-control-prev-icon"
-            aria-hideen="true"
+            //aria-hideen="true"
           ></span>
           <span className="visually-hidden">Previous</span>
         </button>
@@ -119,7 +119,7 @@ export const Carousel = () => {
         >
           <span
             className="carousel-control-next-icon"
-            aria-hideen="true"
+            //aria-hideen="true"
           ></span>
           <span className="visually-hidden">Next</span>
         </button>
