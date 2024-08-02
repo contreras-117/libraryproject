@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ### Application Properties Values ###
-/backend/spring-boot-library/src/main/resources/application.properties
+!**/src/main/resources/application.properties
