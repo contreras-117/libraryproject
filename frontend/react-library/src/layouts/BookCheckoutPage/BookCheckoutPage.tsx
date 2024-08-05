@@ -155,7 +155,7 @@ export const BookCheckoutPage = () => {
         const bookCheckedOutResponse = await fetch(url, requestOptions);
 
         if (!bookCheckedOutResponse.ok) {
-          throw new Error("Something went wrong during the API fetch which checks if a user has the book " + 
+          throw new Error("Something went wrong during the API fetch which checks if a user has the book " +
             "checked out already!");
         }
 
@@ -209,7 +209,8 @@ export const BookCheckoutPage = () => {
               <StarsReviews rating={totalStars} size={32} />
             </div>
           </div>
-          <CheckoutAndReviewBox book={book} mobile={false} currentLoansCount={currentLoansCount}/>
+          <CheckoutAndReviewBox book={book} mobile={false} currentLoansCount={currentLoansCount}
+            isAuthenticated={authState?.isAuthenticated} isCheckedOut={isCheckedOut} />
         </div>
         <hr />
         <LatestReviews reviews={reviews} bookId={book?.id} mobile={false} />
@@ -235,7 +236,8 @@ export const BookCheckoutPage = () => {
             <StarsReviews rating={totalStars} size={32} />
           </div>
         </div>
-        <CheckoutAndReviewBox book={book} mobile={true} currentLoansCount={currentLoansCount}/>
+        <CheckoutAndReviewBox book={book} mobile={true} currentLoansCount={currentLoansCount}
+          isAuthenticated={authState?.isAuthenticated} isCheckedOut={isCheckedOut} />
         <hr />
         <LatestReviews reviews={reviews} bookId={book?.id} mobile={true} />
       </div>
