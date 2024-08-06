@@ -6,6 +6,7 @@ import { CheckoutAndReviewBox } from "./CheckoutAndReviewBox";
 import ReviewModel from "../../models/ReviewModel";
 import { LatestReviews } from "./LatestReview";
 import { useOktaAuth } from "@okta/okta-react";
+import { error } from "console";
 
 export const BookCheckoutPage = () => {
 
@@ -19,6 +20,9 @@ export const BookCheckoutPage = () => {
   const [reviews, setReviews] = useState<ReviewModel[]>([]);
   const [totalStars, setTotalStars] = useState(0); // we'll use this to pass into our StarsReview utility, that will allows us to display how many stars are on a page
   const [isLoadingReview, setIsLoadingReview] = useState(true);
+
+  const [isReviewLeft, setIsReviewLeft] = useState(false);
+  const [isLoadingUserReview, setIsLoadingUserReview] = useState(true);
 
   // Loans Count State
   const [currentLoansCount, setCurrentLoansCount] = useState(0);
@@ -107,7 +111,37 @@ export const BookCheckoutPage = () => {
       setIsLoadingReview(false);
       setHttpError(error.message);
     });
-  }, []);
+  }, [isReviewLeft]);
+
+  useEffect(() => {
+    const fetchUserReviewBook = async () => {
+      if (authState && authState.isAuthenticated) {
+        const url = `http://localhost:8080/api/reviews/secure/user/book?bookId=${bookId}`;
+        const requestOptions = {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
+            'Content-Type': 'application/json'
+          }
+        };
+
+        const userReviewBookResponse = await fetch(url, requestOptions);
+
+        if (!userReviewBookResponse.ok) {
+          throw new Error("Something went wrong while fetching for the user review book API");
+        }
+
+        const userLeftReviewJson = await userReviewBookResponse.json();
+        setIsReviewLeft(userLeftReviewJson);
+      }
+      setIsLoadingUserReview(false);
+    }
+
+    fetchUserReviewBook().catch((error: any) => {
+      setIsLoadingUserReview(false);
+      setHttpError(error.message);
+    })
+  }, [authState]);
 
   useEffect(() => {
     const fetchUserCurrentLoansCount = async () => {
@@ -173,7 +207,7 @@ export const BookCheckoutPage = () => {
 
   }, [authState]);
 
-  if (isLoading || isLoadingReview || isLoadingCurrentLoansCount || isLoadingBookCheckedOut) {
+  if (isLoading || isLoadingReview || isLoadingCurrentLoansCount || isLoadingBookCheckedOut || isLoadingUserReview) {
     return <SpinnerLoading />;
   }
 
@@ -230,7 +264,7 @@ export const BookCheckoutPage = () => {
           </div>
           <CheckoutAndReviewBox book={book} mobile={false} currentLoansCount={currentLoansCount}
             isAuthenticated={authState?.isAuthenticated} isCheckedOut={isCheckedOut}
-            checkoutBook={checkoutBook} />
+            checkoutBook={checkoutBook} isReviewLeft={isReviewLeft} />
         </div>
         <hr />
         <LatestReviews reviews={reviews} bookId={book?.id} mobile={false} />
@@ -258,7 +292,7 @@ export const BookCheckoutPage = () => {
         </div>
         <CheckoutAndReviewBox book={book} mobile={true} currentLoansCount={currentLoansCount}
           isAuthenticated={authState?.isAuthenticated} isCheckedOut={isCheckedOut}
-          checkoutBook={checkoutBook} />
+          checkoutBook={checkoutBook} isReviewLeft={isReviewLeft} />
         <hr />
         <LatestReviews reviews={reviews} bookId={book?.id} mobile={true} />
       </div>
