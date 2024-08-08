@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import BookModel from "../../models/BookModel";
+import { LeaveReview } from "../Utils/LeaveReview";
 
 export const CheckoutAndReviewBox: React.FC<{
   book: BookModel | undefined;
@@ -9,6 +10,7 @@ export const CheckoutAndReviewBox: React.FC<{
   isCheckedOut: boolean;
   checkoutBook: any;
   isReviewLeft: boolean;
+  submitReview: any;
 }> = (props) => {
 
   function buttonRender() {
@@ -27,9 +29,7 @@ export const CheckoutAndReviewBox: React.FC<{
   function reviewRender() {
     if (props.isAuthenticated && !props.isReviewLeft) {
       return (
-        <p>
-          Leave a review component here.
-        </p>
+        <LeaveReview submitReview={props.submitReview} />
       )
     } else if (props.isAuthenticated && props.isReviewLeft) {
       return (
