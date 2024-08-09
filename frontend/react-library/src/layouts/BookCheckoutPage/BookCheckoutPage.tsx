@@ -104,6 +104,9 @@ export const BookCheckoutPage = () => {
         setTotalStars(Number(round)); // here we're making sure its of type Number when passing in our 'round' variable
       }
 
+      // Sort reviews by date in descending order (latest first)
+      loadedReviews.sort((a, b) => b.date.localeCompare(a.date));
+
       setReviews(loadedReviews);
       setIsLoadingReview(false);
     };
