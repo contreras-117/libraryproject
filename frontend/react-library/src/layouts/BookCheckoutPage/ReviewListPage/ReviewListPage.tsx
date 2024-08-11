@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import ReviewModel from "../../../models/ReviewModel";
+import { SpinnerLoading } from "../../Utils/SpinnerLoading";
+import { Pagination } from "../../Utils/Pagination";
+import { Reviews } from "../../Utils/Reviews";
 
 export const ReviewListPage = () => {
 
@@ -58,7 +61,41 @@ export const ReviewListPage = () => {
         });
     }, [currentPage]);
 
+    if (isLoading) {
+        return (
+            <SpinnerLoading />
+        );
+    }
+
+    if (httpError) {
+        return (
+            <div className="container m-5">
+                <p>{httpError}</p>
+            </div>
+        );
+    }
+
+    const indexOfLastReview: number = currentPage * reviewsPerPage;
+    const indexOfFirstReview: number = indexOfLastReview - reviewsPerPage;
+
+    let lastItem = reviewsPerPage * currentPage <= totalAmountOfReviews ? reviewsPerPage * currentPage : totalAmountOfReviews;
+
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
     return (
-        <div></div>
+        <div className="container m-5">
+            <div>
+                <h3>Comments: ({reviews.length})</h3>
+            </div>
+            <p>
+                {indexOfFirstReview + 1} to {lastItem} of {totalAmountOfReviews} items:
+            </p>
+            <div className="row">
+                {reviews.map(review => (
+                    <Reviews review={review} key={review.id} />
+                ))}
+            </div>
+            {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate} />}
+        </div>
     );
 }
