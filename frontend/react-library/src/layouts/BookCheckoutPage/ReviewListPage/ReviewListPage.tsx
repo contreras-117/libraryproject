@@ -29,7 +29,7 @@ export const ReviewListPage = () => {
             }
 
             const responseJson = await responseReviews.json();
-            0
+            
             const responseData = responseJson._embedded.reviews;
 
             setTotalAmountOfReviews(responseJson.page.totalElements);
