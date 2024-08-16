@@ -86,7 +86,7 @@ export const Loans = () => {
     }
 
     async function renewLoan(bookId: number) {
-        const url = `http://localhost:8080/api/books/secure/renew/loan?${bookId}`;
+        const url = `http://localhost:8080/api/books/secure/renew/loan?bookId=${bookId}`;
         const requestOptions = {
             method: 'PUT',
             headers: {
