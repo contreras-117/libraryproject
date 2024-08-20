@@ -3,8 +3,10 @@ package com.libraryproject.springbootlibrary.service;
 import com.libraryproject.springbootlibrary.controller.model.ShelfCurrentLoansResponse;
 import com.libraryproject.springbootlibrary.dao.BookRepository;
 import com.libraryproject.springbootlibrary.dao.CheckoutRepository;
+import com.libraryproject.springbootlibrary.dao.HistoryRepository;
 import com.libraryproject.springbootlibrary.entity.Book;
 import com.libraryproject.springbootlibrary.entity.Checkout;
+import com.libraryproject.springbootlibrary.entity.History;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,9 +26,13 @@ public class BookService {
     private BookRepository bookRepository;
     private CheckoutRepository checkoutRepository;
 
-    public BookService(BookRepository bookRepository, CheckoutRepository checkoutRepository) {
+    private HistoryRepository historyRepository;
+
+    public BookService(BookRepository bookRepository, CheckoutRepository checkoutRepository,
+                       HistoryRepository historyRepository) {
         this.bookRepository = bookRepository;
         this.checkoutRepository = checkoutRepository;
+        this.historyRepository = historyRepository;
     }
 
     public Book checkoutBook(String userEmail, Long bookId) throws Exception {
@@ -113,6 +119,19 @@ public class BookService {
 
         bookRepository.save(book.get());
         checkoutRepository.deleteById(validateCheckout.getId());
+
+        History history = new History(
+                userEmail,
+                validateCheckout.getCheckoutDate(),
+                LocalDate.now().toString(),
+                book.get().getTitle(),
+                book.get().getAuthor(),
+                book.get().getDescription(),
+                book.get().getImg()
+        );
+
+        historyRepository.save(history);
+
     }
 
     public void renewBook(String userEmail, Long bookId) throws Exception {
