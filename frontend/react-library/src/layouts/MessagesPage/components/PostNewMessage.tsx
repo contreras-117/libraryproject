@@ -1,5 +1,6 @@
 import { useOktaAuth } from "@okta/okta-react";
 import { useState } from "react";
+import MessagesModel from "../../../models/MessagesModel";
 
 export const PostNewMessage = () => {
 
@@ -9,13 +10,41 @@ export const PostNewMessage = () => {
     const [displayWarning, setDisplayWarning] = useState(false);
     const [displaySuccess, setDisplaySuccess] = useState(false);
 
+    async function submitNewQuestion() {
+        const url = "http://localhost:8080/api/messages/secure/add/message";
+        if (authState?.isAuthenticated && title !== "" && question !== "") {
+            const messageRequestModel: MessagesModel = new MessagesModel(title, question);
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${authState.accessToken?.accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(messageRequestModel)
+            };
+
+            const submitNewQuestionResponse = await fetch(url, requestOptions);
+
+            if (!submitNewQuestionResponse.ok) {
+                throw new Error("Failed POST request when submitting a question")
+            }
+
+            // Set form to default values during a successful submition
+            setTitle("");
+            setQuestion("");
+            setDisplayWarning(false);
+
+            // Display success banner
+            setDisplaySuccess(true);
+        } else {
+            setDisplayWarning(true);
+            setDisplaySuccess(false);
+        }
+    }
+
+
     return (
         <div className='card mt-3'>
-            {displaySuccess &&
-                <div className='alert alert-success' role='alert'>
-                    Question added successfully
-                </div>
-            }
             <div className='card-header'>
                 Ask question to admin
             </div>
@@ -26,7 +55,11 @@ export const PostNewMessage = () => {
                             All fields must be filled out
                         </div>
                     }
-
+                    {displaySuccess &&
+                        <div className='alert alert-success' role='alert'>
+                            Question added successfully
+                        </div>
+                    }
                     <div className='mb-3'>
                         <label className='form-label'>
                             Title
@@ -44,7 +77,7 @@ export const PostNewMessage = () => {
                         </textarea>
                     </div>
                     <div>
-                        <button type='button' className='btn btn-primary mt-3'>
+                        <button type='button' className='btn btn-primary mt-3' onClick={submitNewQuestion}>
                             Submit Question
                         </button>
                     </div>
