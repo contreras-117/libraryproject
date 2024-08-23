@@ -1,11 +1,11 @@
 class MessagesModel {
-    private id?: number;
-    private userEmail?: string;
-    private title: string;
-    private question: string;
-    private adminEmail?: string;
-    private response?: string;
-    private closed?: boolean;
+    id?: number;
+    userEmail?: string;
+    title: string;
+    question: string;
+    adminEmail?: string;
+    response?: string;
+    closed?: boolean;
 
     constructor(title: string, question: string) {
         this.title = title;
