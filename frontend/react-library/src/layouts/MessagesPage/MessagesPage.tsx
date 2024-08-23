@@ -18,7 +18,7 @@ export const MessagesPage = () => {
                         <button onClick={() => setMessagesClick(true)} className='nav-link'
                             id='nav-message-tab' data-bs-toggle='tab' data-bs-target='#nav-message'
                             type='button' role='tab' aria-controls='nav-message' aria-selected='false'>
-                            Q/A Response/Pending
+                            Q&A Response/Pending
                         </button>
                     </div>
                 </nav>
