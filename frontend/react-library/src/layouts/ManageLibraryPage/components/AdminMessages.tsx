@@ -69,7 +69,7 @@ export const AdminMessages = () => {
     }
 
     async function submitResponseToQuestion(id: number, response: string) {
-        const url = `http://localhost:8080/api/messages/secure/admin/message`;
+        const url = `http://localhost:8080/api/messages/secure/admin/messages`;
 
         if (authState && authState?.isAuthenticated && id !== null && response !== "") {
             const messageAdminRequestModel: AdminMessageRequest = new AdminMessageRequest(id, response);
@@ -100,7 +100,7 @@ export const AdminMessages = () => {
                 <>
                     <h5>Pending Q/A: </h5>
                     {messages.map(message => (
-                        <AdminMessage message={message} key={message.id} />
+                        <AdminMessage message={message} submitResponseToQuestion={submitResponseToQuestion} key={message.id} />
                     ))}
                 </>
                 :
