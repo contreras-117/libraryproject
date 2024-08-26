@@ -8,4 +8,4 @@ class AdminMessageRequest {
     }
 }
 
-export default AdminMessageRequest;
+export default AdminMessageRequest
