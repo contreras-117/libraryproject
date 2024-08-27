@@ -18,7 +18,7 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-    @PostMapping("/api/admin")
+    @PostMapping("/secure/add/book")
     public void postBook(@RequestHeader(value = "Authorization") String token,
                          @RequestBody AddBookRequest addBookRequest) throws Exception {
         String admin = ExtractJWT.payloadExtraction(token, "\"userType\"");
