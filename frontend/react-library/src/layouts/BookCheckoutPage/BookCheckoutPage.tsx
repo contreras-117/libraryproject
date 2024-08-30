@@ -236,14 +236,22 @@ export const BookCheckoutPage = () => {
       }
     }
 
-    const checkoutBookResponse = await fetch(url, requestOptions);
+    try {
 
-    if (!checkoutBookResponse.ok) {
+      const checkoutBookResponse = await fetch(url, requestOptions);
+      
+      if (!checkoutBookResponse.ok) {
+        setDisplayError(true);
+        throw new Error("Something went wrong with the checkout book PUT request!");
+      }
+
+      setDisplayError(false);
+      setIsCheckedOut(true);
+
+    } catch (error) {
       setDisplayError(true);
-      throw new Error("Something went wrong with the checkout book PUT request!")
     }
-    setDisplayError(false);
-    setIsCheckedOut(true);
+    
   }
 
   async function submitReview(starInput: number, reviewDescription: string) {
